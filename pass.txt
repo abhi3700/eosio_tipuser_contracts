@@ -1,0 +1,30 @@
+Wallet (locally)
+================
+name: tueos
+password: "PW5JqYdhqNijPCQBYZPtL46BxbFeAzQfi4Gg1bFzX4PF83qyNSC9g"
+command: `cleos wallet unlock -n gbeos --password PW5JqYdhqNijPCQBYZPtL46BxbFeAzQfi4Gg1bFzX4PF83qyNSC9g`
+########################################################################
+Jungle Testnet
+************************************************************************************
+
+TipUser Contracts
+====================
+tippertipper
+Private key: 5KUbt8wFoadvmCc1zu3Q2VgKNKBxWKNyJYnmpBb4W3AVp5EDx6s
+Public key: EOS7ehPRJDf6AoX2eNm4oDd9EzcSPhhBeqdiybVPPE7EzUKDWEFX8
+-------------------------------------------------------------
+
+TipUser Players
+==================
+tipuser11111
+Private key: 5KEqMDEMRdjyYrML8XN7cwUHSxQ1LSApezc61drjMCnu5Cx3Kce
+Public key: EOS5AKUVP7HBw9EFrQxzo9cPPeC8owWJRTG2sHKBh7rTZGGthHNME
+-------------------------------------------------------------
+tipuser11112
+Private key: 5Hsc8RDYXkzrHC8oK64KHLh9LegG1guCE1GRCvHRhLh3FHyPxyR
+Public key: EOS4twBLCirwdUpRPpFf4fC8dgocV2jBSEbvfc8UrSkUABAoxtZUE
+-------------------------------------------------------------
+tipuser11113
+Private key: 5JSbKgts1WLpEScfwpE7fr5dhZBHa1caxaVY9ULBc7LPCBVpDpN
+Public key: EOS7wPumeAWAENQyyrcgfmb13YfiuzqpSdYg9DjiQKmfeGhTSyYbS
+-------------------------------------------------------------
