@@ -2,7 +2,7 @@ Wallet (locally)
 ================
 name: tueos
 password: "PW5JqYdhqNijPCQBYZPtL46BxbFeAzQfi4Gg1bFzX4PF83qyNSC9g"
-command: `cleos wallet unlock -n gbeos --password PW5JqYdhqNijPCQBYZPtL46BxbFeAzQfi4Gg1bFzX4PF83qyNSC9g`
+command: `cleos wallet unlock -n tueos --password PW5JqYdhqNijPCQBYZPtL46BxbFeAzQfi4Gg1bFzX4PF83qyNSC9g`
 ########################################################################
 Jungle Testnet
 ************************************************************************************
