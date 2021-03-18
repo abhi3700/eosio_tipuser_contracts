@@ -39,7 +39,63 @@ warning: transaction executed locally, but may not be confirmed by the network y
 
 ## Testing
 ### Action - `deposit` (Payable action)
-
+* `tipuser11111` transfer some quantity to contract account
+	- check for any tippertipper fund balance of `tipuser11111`
+```console
+$ cleost get table tippertipper tipuser11111 fund --show-payer
+{
+  "rows": [],
+  "more": false,
+  "next_key": "",
+  "next_key_bytes": ""
+}
+```
+	- show the eosio.token balance of `tipuser11111`
+```console
+$ cleost get table eosio.token tipuser11111 accounts --show-payer
+{
+  "rows": [{
+      "data": {
+        "balance": "100.0000 EOS"
+      },
+      "payer": "junglefaucet"
+    },{
+      "data": {
+        "balance": "100.0000 JUNGLE"
+      },
+      "payer": "junglefaucet"
+    }
+  ],
+  "more": false,
+  "next_key": "",
+  "next_key_bytes": ""
+}
+```
+	- transfer
+```console
+$ cleost push action eosio.token transfer '["tipuser11111", "tippertipper", "10.0000 EOS", "transfer for fund"]' -p tipuser11111@active
+executed transaction: 37e1969218c20e5f2b7733b3bc715949cbc0998e7448377c5e0938a2715df255  144 bytes  277 us
+#   eosio.token <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
+#  tipuser11111 <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
+#  tippertipper <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
+warning: transaction executed locally, but may not be confirmed by the network yet         ]
+```
+	- Now, check for any tippertipper fund balance of `tipuser11111`
+```console
+$ cleost get table tippertipper tipuser11111 fund --show-payer
+{
+  "rows": [{
+      "data": {
+        "balance": "10.0000 EOS"
+      },
+      "payer": "tippertipper"
+    }
+  ],
+  "more": false,
+  "next_key": "",
+  "next_key_bytes": ""
+}
+```
 
 ### Extra
 
