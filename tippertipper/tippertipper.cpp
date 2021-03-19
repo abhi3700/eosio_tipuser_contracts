@@ -18,7 +18,7 @@ void tippertipper::deposit( const name& from_ac,
 	// Although this is checked in "dcitoken::transfer" action, but fund_token_symbol check is pending. 
 	// So, in addition the entire asset check is done using static func defined in "dciico.hpp" file.
 	// check quantity is valid for all conditions as 'asset'
-	check_quantity(quantity, fund_token_symbol);
+	check_quantity(quantity, fund_token_symbol, native_token_symbol_1);
 
 	// instantiate the `fund` table
 	fund_index fund_table(get_self(), from_ac.value);

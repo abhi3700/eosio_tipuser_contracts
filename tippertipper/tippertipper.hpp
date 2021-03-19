@@ -30,6 +30,7 @@ CONTRACT tippertipper : public contract
 {
 private:
 	const symbol fund_token_symbol;
+	const symbol native_token_symbol_1;
 
 public:
 	using contract::contract;
@@ -37,6 +38,7 @@ public:
 	tippertipper(name receiver, name code, datastream<const char*> ds) : 
 				contract(receiver, code, ds),
 				fund_token_symbol("EOS", 4) 
+				native_token_symbol_1("EOS", 4) 
 				{}
 
 	/**
@@ -75,10 +77,10 @@ public:
 
 */	
 	
-	static void check_quantity( const asset& quantity, const symbol& qty_sym ) {
+	static void check_quantity( const asset& quantity, const symbol& token1_sym, const symbol& token2_sym ) {
 		check(quantity.is_valid(), "invalid quantity");
 		check(quantity.amount > 0, "must withdraw positive quantity");
-		check(quantity.symbol == qty_sym, "symbol precision mismatch. Also, could be bcoz of sending some other tokens to this contract.");
+		check( (quantity.symbol == token1_sym) || (quantity.symbol == token2_sym) , "symbol precision mismatch. Also, could be bcoz of sending unaccepted tokens to this contract.");
 	}
 	// -----------------------------------------------------------------------------------------------------------------------
 	TABLE fund
