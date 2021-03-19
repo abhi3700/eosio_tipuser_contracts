@@ -63,20 +63,20 @@ warning: transaction executed locally, but may not be confirmed by the network y
 ## Testing
 ### Testnet
 #### Action - `create`
-* create the token with max_supply - 100 M tokens.
+* create the token with max_supply - 100 M FUTBOL tokens.
 ```console
-$ cleost push action tokenfutbol1 create '["tipjaguakicr", "100000000.0000 DCI"]' -p tokenfutbol1@active
-executed transaction: fdbc725d043008e6f38081d456df0c5532ccb461c0951511ce235da43b2fb9d9  120 bytes  271 us
-#  tokenfutbol1 <= tokenfutbol1::create         {"issuer":"tipjaguakicr","maximum_supply":"10000000.0000 DCI"}
+$ cleost push action tokenfutbol1 create '["tipjaguakicr", "100000000.0000 FUTBOL"]' -p tokenfutbol1@active
+executed transaction: 982c4e4eb104b3c3183ddf86cbcb83654022ac8113161755a1a70f7d972fed67  120 bytes  132 us
+#  tokenfutbol1 <= tokenfutbol1::create         {"issuer":"tipjaguakicr","maximum_supply":"100000000.0000 FUTBOL"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 
 #### Action - `issue`
 * issue 10 M to issuer - `tipjaguakicr`
 ```console
-$ cleost push action tokenfutbol1 issue '["tipjaguakicr", "10000000.0000 DCI", "issue 10 M tokens"]' -p tipjaguakicr@active
-executed transaction: 84afb7eaa0a768420ed0c3864a6f6855a5240e0d969d7a640473f30a157671b0  136 bytes  279 us
-#  tokenfutbol1 <= tokenfutbol1::issue          {"to":"tipjaguakicr","quantity":"1000000.0000 DCI","memo":"issue 1M tokens"}
+$ cleost push action tokenfutbol1 issue '["tipjaguakicr", "10000000.0000 FUTBOL", "issue 10 M tokens"]' -p tipjaguakicr@active
+executed transaction: 5e65d1824145bfeb984fdceeb1de11768b10eb648ae00f080de4e4dadf839f61  136 bytes  168 us
+#  tokenfutbol1 <= tokenfutbol1::issue          {"to":"tipjaguakicr","quantity":"10000000.0000 FUTBOL","memo":"issue 10 M tokens"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 

@@ -19,14 +19,16 @@ Public key: EOS8EPgoAjPmkfCNdrvTvmZozXbpwBHZXW3dKhXT2L6JLKFX9KNVb
 -------------------------------------------------------------
 tipjaguakicr
 Owner
-Public Key: EOS71HQXPLyJnejAv144sXCrz3hUHD4zX3zcTRPAKGpdDcbo9opwa
+_____
 Private key: 5JZdyo4HtPNL7bHRnWvNXXPCKrqPkoWLCQmo8BKC2wG8VJhgaEm
+Public Key: EOS71HQXPLyJnejAv144sXCrz3hUHD4zX3zcTRPAKGpdDcbo9opwa
 Active
-Public Key: EOS5YRusd6hCJ9ATvCxEbPSSnw34EANHLC9emjP7iZLYXpGnfcEYh
+_____
 Private key: 5KePZEf7WcT6LwsneMf1ba2RvMjRssbBdMS5ieJGpqJdCi9wsvW
+Public Key: EOS5YRusd6hCJ9ATvCxEbPSSnw34EANHLC9emjP7iZLYXpGnfcEYh
 -------------------------------------------------------------
 
-TipUser Players
+TipUser Users
 ==================
 tipuser11111
 Private key: 5KEqMDEMRdjyYrML8XN7cwUHSxQ1LSApezc61drjMCnu5Cx3Kce
