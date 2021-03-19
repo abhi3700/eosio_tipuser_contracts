@@ -1,7 +1,7 @@
 #pragma once
 #include <eosio/eosio.hpp>
 #include <eosio/asset.hpp>
-// #include <eosio/system.hpp>
+#include <eosio/system.hpp>
 // #include <eosio/crypto.hpp>
 #include <string>
 
@@ -13,10 +13,10 @@ using eosio::const_mem_fun;
 using eosio::indexed_by;
 using eosio::asset;
 using eosio::check;
-// using eosio::permission_level;
+using eosio::permission_level;
 using eosio::datastream;
 // using eosio::current_time_point;
-// using eosio::action;
+using eosio::action;
 using eosio::same_payer;
 using eosio::symbol;
 // using eosio::require_recipient;
@@ -29,12 +29,14 @@ using std::string;
 CONTRACT tippertipper : public contract
 {
 private:
+	const symbol fund_token_symbol;
 
 public:
 	using contract::contract;
 
 	tippertipper(name receiver, name code, datastream<const char*> ds) : 
-				contract(receiver, code, ds)/*,*/ 
+				contract(receiver, code, ds),
+				fund_token_symbol("EOS", 4) 
 				{}
 
 	/**
@@ -51,6 +53,20 @@ public:
 					const name& contract_ac, 
 					const asset& quantity,
 					const string& memo );
+
+	/**
+	 * @brief - tip money to a person
+	 * @details - tip money to a person
+	 * 
+	 * @param fund_owner - user's fund
+	 * @param tip_to - tip to user
+	 * @param quantity - qty
+	 * @param memo - memo
+	 */
+	ACTION tip( const name& fund_owner_ac,
+				const name& tip_to_ac,
+				const asset& quantity,
+				const string& memo );
 
 
 /*	ACTION withdraw( const name& user,

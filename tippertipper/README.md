@@ -38,7 +38,7 @@ warning: transaction executed locally, but may not be confirmed by the network y
 ```
 
 ## Testing
-### Action - `deposit` (Payable action)
+### Action - `deposit` (on_notify action)
 * `tipuser11111` transfer some quantity to contract account
 	- check for any tippertipper fund balance of `tipuser11111`
 ```console
@@ -87,6 +87,35 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
   "rows": [{
       "data": {
         "balance": "10.0000 EOS"
+      },
+      "payer": "tippertipper"
+    }
+  ],
+  "more": false,
+  "next_key": "",
+  "next_key_bytes": ""
+}
+```
+
+### Action - `tip`
+* `tipuser11111` tips "1 EOS" to `tipuser11112`
+```console
+$ cleost push action tippertipper tip '["tipuser11111", "tipuser11112", "1.0000 EOS", "tip for"]' -p tippertipper@active
+executed transaction: ed513aa1d7dc407c54c7ca83a2e2fbab8937321b3d7cb90c79635b6a363c70ba  136 bytes  225 us
+#  tippertipper <= tippertipper::tip            {"fund_owner_ac":"tipuser11111","tip_to_ac":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for"}
+#   eosio.token <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for"}
+#  tippertipper <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for"}
+>> Either money is not sent to the contract or contract itself is the buyer.
+#  tipuser11112 <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for"}
+warning: transaction executed locally, but may not be confirmed by the network yet         ]
+``` 
+  - Now, check for any tippertipper fund balance of `tipuser11111`
+```console
+$ cleost get table tippertipper tipuser11111 fund --show-payer
+{
+  "rows": [{
+      "data": {
+        "balance": "9.0000 EOS"
       },
       "payer": "tippertipper"
     }

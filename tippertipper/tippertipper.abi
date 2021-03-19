@@ -12,9 +12,37 @@
                     "type": "asset"
                 }
             ]
+        },
+        {
+            "name": "tip",
+            "base": "",
+            "fields": [
+                {
+                    "name": "fund_owner_ac",
+                    "type": "name"
+                },
+                {
+                    "name": "tip_to_ac",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
         }
     ],
-    "actions": [],
+    "actions": [
+        {
+            "name": "tip",
+            "type": "tip",
+            "ricardian_contract": ""
+        }
+    ],
     "tables": [
         {
             "name": "fund",
