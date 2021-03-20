@@ -60,7 +60,7 @@ $ cleost get table eosio.token tipuser11111 accounts --show-payer
 {
   "rows": [{
       "data": {
-        "balance": "98.0000 EOS"
+        "balance": "97.0000 EOS"
       },
       "payer": "tipuser11111"
     },{
@@ -78,7 +78,7 @@ $ cleost get table eosio.token tipuser11111 accounts --show-payer
 	- transfer
 ```console
 $ cleost push action eosio.token transfer '["tipuser11111", "tippertipper", "10.0000 EOS", "transfer for fund"]' -p tipuser11111@active
-executed transaction: 168dd0c86f20405c66e0f32f164dc60f38d7e9c42e0cd2762dc14b51db87f915  144 bytes  239 us
+executed transaction: 6071ab7d760bdfbb17d70e58a986c455206edf5d5c9cfd1daab71e82cdb5e14c  144 bytes  198 us
 #   eosio.token <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
 #  tipuser11111 <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
 #  tippertipper <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
@@ -108,7 +108,7 @@ $ cleost get table eosio.token tipuser11111 accounts --show-payer
 {
   "rows": [{
       "data": {
-        "balance": "88.0000 EOS"
+        "balance": "87.0000 EOS"
       },
       "payer": "tipuser11111"
     },{
@@ -134,7 +134,7 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
       "data": {
         "token_id": 1397703940,
         "token_contract_ac": "eosio.token",
-        "balance": "10.0000 EOS"
+        "balance": "9.0000 EOS"
       },
       "payer": "tippertipper"
     }
@@ -163,10 +163,10 @@ $ cleost get table tokenfutbol1 tipuser11111 accounts --show-payer
   - transfer
 ```console
 $ cleost push action tokenfutbol1 transfer '["tipuser11111", "tippertipper", "10.0000 FUTBOL", "deposit for fund"]' -p tipuser11111@active
-executed transaction: 0c4c058cf212668b95e725f460160acf06137b3667c1fbc459c0f6b2d92deacc  144 bytes  180 us
-#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"1.0000 FUTBOL","memo":"deposit for fund"}
-#  tipuser11111 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"1.0000 FUTBOL","memo":"deposit for fund"}
-#  tippertipper <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"1.0000 FUTBOL","memo":"deposit for fund"}
+executed transaction: 5aca7369f4215594d5280b62fc2540eda9860c7e3dedbca2856d15a97b485c43  144 bytes  175 us
+#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for fund"}
+#  tipuser11111 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for fund"}
+#  tippertipper <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for fund"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
   - show the tippertipper fund balance of `tipuser11111`
@@ -177,7 +177,7 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
       "data": {
         "token_id": 1397703940,
         "token_contract_ac": "eosio.token",
-        "balance": "10.0000 EOS"
+        "balance": "9.0000 EOS"
       },
       "payer": "tippertipper"
     },{
@@ -225,13 +225,6 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
         "balance": "10.0000 EOS"
       },
       "payer": "tippertipper"
-    },{
-      "data": {
-        "token_id": "21479244531320324",
-        "token_contract_ac": "tokenfutbol1",
-        "balance": "9.9000 FUTBOL"
-      },
-      "payer": "tippertipper"
     }
   ],
   "more": false,
@@ -242,7 +235,7 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
   - tip
 ```console
 $ cleost push action tippertipper tip '["tipuser11111", "tipuser11112", "1.0000 EOS", "tip for enjoy"]' -p tippertipper@active
-executed transaction: 38453fec4b8233b239692a86e3b1877619a80a9024d08c22b49e2547f8a6f2ad  144 bytes  190 us
+executed transaction: 732721164bede6f7828c2cd5f752b860610c42399d4a17938f1ec3886be3c800  144 bytes  218 us
 #  tippertipper <= tippertipper::tip            {"fund_owner_ac":"tipuser11111","tip_to_ac":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for e...
 #   eosio.token <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for enjoy"}
 #  tippertipper <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for enjoy"}
@@ -261,13 +254,6 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
         "balance": "9.0000 EOS"
       },
       "payer": "tippertipper"
-    },{
-      "data": {
-        "token_id": "21479244531320324",
-        "token_contract_ac": "tokenfutbol1",
-        "balance": "9.9000 FUTBOL"
-      },
-      "payer": "tippertipper"
     }
   ],
   "more": false,
@@ -280,13 +266,13 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
 * `tipuser11111` tips "0.1 FUTBOL" to `tipuser11112`
   - show the tippertipper fund balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 fund --show-payer --lower tokenfutbol1 --key-type name --index 2
 {
   "rows": [{
       "data": {
         "token_id": 1397703940,
         "token_contract_ac": "eosio.token",
-        "balance": "10.0000 EOS"
+        "balance": "9.0000 EOS"
       },
       "payer": "tippertipper"
     },{
@@ -305,31 +291,24 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
 ```
   - tip
 ```console
-$ cleost push action tippertipper tip '["tipuser11111", "tipuser11112", "0.1000 FUTBOL", "tip for enjoy"]' -p tippertipper@active
-executed transaction: 0ea36ddad5614ac420e418b021f3f8033381a8c943bcd494e634f323b11111e5  144 bytes  175 us
-#  tippertipper <= tippertipper::tip            {"fund_owner_ac":"tipuser11111","tip_to_ac":"tipuser11112","quantity":"0.1000 FUTBOL","memo":"tip fo...
-#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11112","quantity":"0.1000 FUTBOL","memo":"tip for enjoy"}
-#  tippertipper <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11112","quantity":"0.1000 FUTBOL","memo":"tip for enjoy"}
+$ cleost push action tippertipper tip '["tipuser11111", "tipuser11112", "1.0000 FUTBOL", "tip for enjoy"]' -p tippertipper@active
+executed transaction: 017644d837bef55d096abada3b38d728925d1669bfeea2c09948ee3caf335890  144 bytes  212 us
+#  tippertipper <= tippertipper::tip            {"fund_owner_ac":"tipuser11111","tip_to_ac":"tipuser11112","quantity":"1.0000 FUTBOL","memo":"tip fo...
+#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 FUTBOL","memo":"tip for enjoy"}
+#  tippertipper <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 FUTBOL","memo":"tip for enjoy"}
 >> Either money is not sent to the contract or contract itself is the buyer.
-#  tipuser11112 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11112","quantity":"0.1000 FUTBOL","memo":"tip for enjoy"}
+#  tipuser11112 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 FUTBOL","memo":"tip for enjoy"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ``` 
   - show the tippertipper fund balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 fund --show-payer --lower tokenfutbol1 --key-type name --index 2
 {
   "rows": [{
       "data": {
-        "token_id": 1397703940,
-        "token_contract_ac": "eosio.token",
-        "balance": "10.0000 EOS"
-      },
-      "payer": "tippertipper"
-    },{
-      "data": {
         "token_id": "21479244531320324",
         "token_contract_ac": "tokenfutbol1",
-        "balance": "9.9000 FUTBOL"
+        "balance": "9.0000 FUTBOL"
       },
       "payer": "tippertipper"
     }
