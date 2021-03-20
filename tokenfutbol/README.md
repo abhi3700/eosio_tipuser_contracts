@@ -83,7 +83,7 @@ warning: transaction executed locally, but may not be confirmed by the network y
 #### Action - `transfer`
 * issuer - `tipjaguakicr` transfer some tokens to a user - `tipuser11111`
 ```console
-$ cleost push action tokenfutbol1 transfer '["tipjaguakicr", "tipuser11111", "100.0000 DCI", "transfer DCI tokens"]' -p tipjaguakicr@active
+$ cleost push action tokenfutbol1 transfer '["tipjaguakicr", "tipuser11111", "100.0000 FUTBOL", "transfer FUTBOL tokens"]' -p tipjaguakicr@active
 executed transaction: e4334c81c4f2894c8de88c8e7561ebcb6e7be4705156e1e71a0d0483cb58686d  160 bytes  214 us
 #  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tipjaguakicr","to":"dci111111ico","quantity":"100000.0000 DCI","memo":"transfer DCI tokens ...
 #  tipjaguakicr <= tokenfutbol1::transfer       {"from":"tipjaguakicr","to":"dci111111ico","quantity":"100000.0000 DCI","memo":"transfer DCI tokens ...

@@ -8,8 +8,30 @@
             "base": "",
             "fields": [
                 {
+                    "name": "token_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "token_contract_ac",
+                    "type": "name"
+                },
+                {
                     "name": "balance",
                     "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "testdelfund",
+            "base": "",
+            "fields": [
+                {
+                    "name": "fund_owner_ac",
+                    "type": "name"
+                },
+                {
+                    "name": "token_id",
+                    "type": "uint64"
                 }
             ]
         },
@@ -37,6 +59,11 @@
         }
     ],
     "actions": [
+        {
+            "name": "testdelfund",
+            "type": "testdelfund",
+            "ricardian_contract": ""
+        },
         {
             "name": "tip",
             "type": "tip",
