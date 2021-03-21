@@ -4,20 +4,30 @@
     "types": [],
     "structs": [
         {
-            "name": "fund",
+            "name": "account",
             "base": "",
             "fields": [
                 {
-                    "name": "token_id",
+                    "name": "owner",
                     "type": "uint64"
                 },
                 {
-                    "name": "token_contract_ac",
-                    "type": "name"
+                    "name": "balances",
+                    "type": "pair_string_string[][]"
+                }
+            ]
+        },
+        {
+            "name": "pair_string_string",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "string"
                 },
                 {
-                    "name": "balance",
-                    "type": "asset"
+                    "name": "value",
+                    "type": "string"
                 }
             ]
         },
@@ -26,11 +36,7 @@
             "base": "",
             "fields": [
                 {
-                    "name": "fund_owner_ac",
-                    "type": "name"
-                },
-                {
-                    "name": "token_id",
+                    "name": "owner_id",
                     "type": "uint64"
                 }
             ]
@@ -40,11 +46,45 @@
             "base": "",
             "fields": [
                 {
-                    "name": "fund_owner_ac",
-                    "type": "name"
+                    "name": "from_id",
+                    "type": "uint64"
                 },
                 {
-                    "name": "tip_to_ac",
+                    "name": "to_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "from_username",
+                    "type": "string"
+                },
+                {
+                    "name": "to_username",
+                    "type": "string"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "withdraw",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "from_username",
+                    "type": "string"
+                },
+                {
+                    "name": "to_ac",
                     "type": "name"
                 },
                 {
@@ -68,12 +108,17 @@
             "name": "tip",
             "type": "tip",
             "ricardian_contract": ""
+        },
+        {
+            "name": "withdraw",
+            "type": "withdraw",
+            "ricardian_contract": ""
         }
     ],
     "tables": [
         {
-            "name": "fund",
-            "type": "fund",
+            "name": "accounts",
+            "type": "account",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

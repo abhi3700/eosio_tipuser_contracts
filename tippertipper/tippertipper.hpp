@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <cstdlib> 		// M-1: for strtoull
+// #include <boost/lexical_cast.hpp>		// M-2: for string to uint64_t (Using Boost lib)		compile using `$ eosio-cpp tippertipper.cpp -I /mnt/f/Coding/github_repos -o tippertipper.wasm`
+
 
 using eosio::contract;
 using eosio::print;
@@ -29,6 +32,7 @@ using std::string;
 using std::vector;
 using std::map;
 using std::make_pair;
+// using boost::lexical_cast;
 
 CONTRACT tippertipper : public contract
 {
@@ -146,12 +150,25 @@ public:
 	inline uint64_t count_alpha( const string& str ) {
 		uint64_t count = 0;		// no. of alphabet chars
 
-	    for (int i=0; i<=strlen(str); ++i) {
+	    for (int i=0; i<=str.size(); ++i) {
 	        if (isalpha(str[i]))
 	            ++count;
 	    }
 
 	    return count;
+	}
+
+	// string to uint64_t
+	inline uint64_t str_to_uint64t(const string& s) {
+		// M-1
+		char* end;
+		uint64_t num = strtoull(s.c_str(), &end, 10);
+	
+		//----------------------------------------------
+		// M-2
+		// uint64_t num = lexical_cast<uint64_t>(s);
+
+		return num;
 	}
 
 	// // find index of balances vector where contract key's value is contract (in string)
@@ -175,7 +192,7 @@ public:
 
 		for (int i = 0; i < balances.size(); ++i)
 		{
-			if( symbol(balances[i]["symbol_name"], balances[i]["symbol_precision"]) == quantity.symbol ) {
+			if( symbol(balances[i]["symbol_name"], /*uint8_t*/stoi(balances[i]["symbol_precision"])) == quantity.symbol ) {
 				search_index = i;
 				break;
 			}
@@ -183,4 +200,6 @@ public:
 
 		return search_index;
 	}
+
+
 };
