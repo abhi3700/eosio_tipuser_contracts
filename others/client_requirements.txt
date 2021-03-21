@@ -1,0 +1,30 @@
+v1.0
+====
+- only 4 commands , deposit, withdraw, withdrawmemo and tip
+- /deposit
+Lucas, [21.03.21 11:02]
+to show the help of deposit
+
+Lucas, [21.03.21 11:02]
+Send token to tippedtipped with your unique telegram ID 451529893 as the memo to deposit!
+
+- and tip is only as a reply to an user in an channel
+- like tipped
+
+v2.0
+====
+- with exchange
+Lucas, [21.03.21 11:05]
+i already have that api from alcor
+
+Lucas, [21.03.21 11:06]
+as soon version1 is ready and pay for it, we start with version 2
+
+Lucas, [21.03.21 11:06]
+and maybe we are going to have a version 1.5 , with a liquidity pool for some token for multichain , but maybe i do that myself
+
+Lucas, [21.03.21 11:07]
+is 1 token thant the token owner is going to give me liquidity in 3 chains
+
+Lucas, [21.03.21 11:07]
+so i will allow users to withdraw in any chain
