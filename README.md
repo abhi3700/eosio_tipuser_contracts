@@ -9,3 +9,4 @@ Smart contracts for EOSIO Tip bot
 * [tippertipper](./tippertipper)
 
 ## References
+* https://stackoverflow.com/questions/42356939/c-convert-string-to-uint64-t
