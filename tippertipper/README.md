@@ -1,7 +1,7 @@
 # TipUser contract
 ## Brief
 * It is a tipuser contract where:
-	- [ ] tip user based on requester's request from fund balance in contract account. 
+	- [x] tip user based on requester's request from fund balance in contract account. 
 
 ## About
 * contract name - `tippertipper`
