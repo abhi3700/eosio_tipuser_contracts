@@ -13,30 +13,44 @@
                 },
                 {
                     "name": "balances",
-                    "type": "pair_string_string[][]"
+                    "type": "pair_extended_symbol_uint64[]"
                 }
             ]
         },
         {
-            "name": "pair_string_string",
+            "name": "extended_symbol",
+            "base": "",
+            "fields": [
+                {
+                    "name": "sym",
+                    "type": "symbol"
+                },
+                {
+                    "name": "contract",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "pair_extended_symbol_uint64",
             "base": "",
             "fields": [
                 {
                     "name": "key",
-                    "type": "string"
+                    "type": "extended_symbol"
                 },
                 {
                     "name": "value",
-                    "type": "string"
+                    "type": "uint64"
                 }
             ]
         },
         {
-            "name": "testdelfund",
+            "name": "testdlacbyid",
             "base": "",
             "fields": [
                 {
-                    "name": "owner_id",
+                    "name": "tg_id",
                     "type": "uint64"
                 }
             ]
@@ -100,8 +114,8 @@
     ],
     "actions": [
         {
-            "name": "testdelfund",
-            "type": "testdelfund",
+            "name": "testdlacbyid",
+            "type": "testdlacbyid",
             "ricardian_contract": ""
         },
         {

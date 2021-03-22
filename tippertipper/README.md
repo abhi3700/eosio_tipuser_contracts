@@ -1,7 +1,7 @@
 # TipUser contract
 ## Brief
 * It is a tipuser contract where:
-	- [x] tip user based on requester's request from fund balance in contract account. 
+	- [x] tip user based on requester's request from accounts balance in contract account. 
 
 ## About
 * contract name - `tippertipper`
@@ -9,7 +9,7 @@
 * action
 	- `deposit`
 * table
-	- `fund`
+	- `accounts`
 
 ## Compile
 ```console
@@ -44,9 +44,9 @@ warning: transaction executed locally, but may not be confirmed by the network y
 ### Action - `deposit` (on_notify action)
 #### EOS
 * `tipuser11111` transfer some quantity (in EOS) to contract account
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 accounts --show-payer
 {
   "rows": [],
   "more": false,
@@ -77,16 +77,16 @@ $ cleost get table eosio.token tipuser11111 accounts --show-payer
 ```
 	- transfer
 ```console
-$ cleost push action eosio.token transfer '["tipuser11111", "tippertipper", "10.0000 EOS", "transfer for fund"]' -p tipuser11111@active
+$ cleost push action eosio.token transfer '["tipuser11111", "tippertipper", "10.0000 EOS", "transfer for accounts"]' -p tipuser11111@active
 executed transaction: 6071ab7d760bdfbb17d70e58a986c455206edf5d5c9cfd1daab71e82cdb5e14c  144 bytes  198 us
-#   eosio.token <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
-#  tipuser11111 <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
-#  tippertipper <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for fund"}
+#   eosio.token <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for accounts"}
+#  tipuser11111 <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for accounts"}
+#  tippertipper <= eosio.token::transfer        {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 EOS","memo":"transfer for accounts"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 accounts --show-payer
 {
   "rows": [{
       "data": {
@@ -126,9 +126,9 @@ $ cleost get table eosio.token tipuser11111 accounts --show-payer
 
 #### FUTBOL
 * `tipuser11111` transfer some quantity (in FUTBOL) to contract account
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 accounts --show-payer
 {
   "rows": [{
       "data": {
@@ -162,16 +162,16 @@ $ cleost get table tokenfutbol1 tipuser11111 accounts --show-payer
 ```
   - transfer
 ```console
-$ cleost push action tokenfutbol1 transfer '["tipuser11111", "tippertipper", "10.0000 FUTBOL", "deposit for fund"]' -p tipuser11111@active
+$ cleost push action tokenfutbol1 transfer '["tipuser11111", "tippertipper", "10.0000 FUTBOL", "deposit for accounts"]' -p tipuser11111@active
 executed transaction: 5aca7369f4215594d5280b62fc2540eda9860c7e3dedbca2856d15a97b485c43  144 bytes  175 us
-#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for fund"}
-#  tipuser11111 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for fund"}
-#  tippertipper <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for fund"}
+#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for accounts"}
+#  tipuser11111 <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for accounts"}
+#  tippertipper <= tokenfutbol1::transfer       {"from":"tipuser11111","to":"tippertipper","quantity":"10.0000 FUTBOL","memo":"deposit for accounts"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 accounts --show-payer
 {
   "rows": [{
       "data": {
@@ -214,9 +214,9 @@ $ cleost get table tokenfutbol1 tipuser11111 accounts --show-payer
 ### Action - `tip`
 #### EOS
 * `tipuser11111` tips "1 EOS" to `tipuser11112`
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 accounts --show-payer
 {
   "rows": [{
       "data": {
@@ -243,9 +243,9 @@ executed transaction: 732721164bede6f7828c2cd5f752b860610c42399d4a17938f1ec3886b
 #  tipuser11112 <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 EOS","memo":"tip for enjoy"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ``` 
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer
+$ cleost get table tippertipper tipuser11111 accounts --show-payer
 {
   "rows": [{
       "data": {
@@ -264,9 +264,9 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer
 
 #### FUTBOL
 * `tipuser11111` tips "0.1 FUTBOL" to `tipuser11112`
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer --lower tokenfutbol1 --key-type name --index 2
+$ cleost get table tippertipper tipuser11111 accounts --show-payer --lower tokenfutbol1 --key-type name --index 2
 {
   "rows": [{
       "data": {
@@ -300,9 +300,9 @@ executed transaction: 017644d837bef55d096abada3b38d728925d1669bfeea2c09948ee3caf
 #  tipuser11112 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11112","quantity":"1.0000 FUTBOL","memo":"tip for enjoy"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ``` 
-  - show the tippertipper fund balance of `tipuser11111`
+  - show the tippertipper accounts balance of `tipuser11111`
 ```console
-$ cleost get table tippertipper tipuser11111 fund --show-payer --lower tokenfutbol1 --key-type name --index 2
+$ cleost get table tippertipper tipuser11111 accounts --show-payer --lower tokenfutbol1 --key-type name --index 2
 {
   "rows": [{
       "data": {
@@ -320,7 +320,7 @@ $ cleost get table tippertipper tipuser11111 fund --show-payer --lower tokenfutb
 ```
 
 ### Extra
-* del fund table
+* del accounts table
 ```console
 $ cleost push action tippertipper testdelfund '["tipuser11111", "1397703940"]' -p tippertipper@active
 executed transaction: abd1ed6b56273b387f2f101e63ae7f50766566b3b948f97d8bb0c5b91667057d  112 bytes  250 us
@@ -329,22 +329,22 @@ warning: transaction executed locally, but may not be confirmed by the network y
 ```
 * transfer EOS token back
 ```console
-$ cleost push action eosio.token transfer '["tippertipper", "tipuser11111", "9.0000 EOS", "return fund"]' -p tippertipper@active
+$ cleost push action eosio.token transfer '["tippertipper", "tipuser11111", "9.0000 EOS", "return accounts"]' -p tippertipper@active
 executed transaction: 58e02ed6b81837208dbb9900ec5d279747ee1bb232355d4235985eec98612599  136 bytes  169 us
-#   eosio.token <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11111","quantity":"9.0000 EOS","memo":"return fund"}
-#  tippertipper <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11111","quantity":"9.0000 EOS","memo":"return fund"}
+#   eosio.token <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11111","quantity":"9.0000 EOS","memo":"return accounts"}
+#  tippertipper <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11111","quantity":"9.0000 EOS","memo":"return accounts"}
 >> Either money is not sent to the contract or contract itself is the buyer.
-#  tipuser11111 <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11111","quantity":"9.0000 EOS","memo":"return fund"}
+#  tipuser11111 <= eosio.token::transfer        {"from":"tippertipper","to":"tipuser11111","quantity":"9.0000 EOS","memo":"return accounts"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 * transfer FUTBOL token back
 ```console
-$ cleost push action tokenfutbol1 transfer '["tippertipper", "tipuser11111", "9.9000 FUTBOL", "return fund"]' -p tippertipper@active
+$ cleost push action tokenfutbol1 transfer '["tippertipper", "tipuser11111", "9.9000 FUTBOL", "return accounts"]' -p tippertipper@active
 executed transaction: 89a821e0193e65fee6bd6e03c845292a877edd3358e9156898dd29af9a32c615  136 bytes  145 us
-#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11111","quantity":"9.9000 FUTBOL","memo":"return fund"}
-#  tippertipper <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11111","quantity":"9.9000 FUTBOL","memo":"return fund"}
+#  tokenfutbol1 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11111","quantity":"9.9000 FUTBOL","memo":"return accounts"}
+#  tippertipper <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11111","quantity":"9.9000 FUTBOL","memo":"return accounts"}
 >> Either money is not sent to the contract or contract itself is the buyer.
-#  tipuser11111 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11111","quantity":"9.9000 FUTBOL","memo":"return fund"}
+#  tipuser11111 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11111","quantity":"9.9000 FUTBOL","memo":"return accounts"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
 

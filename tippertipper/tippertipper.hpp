@@ -24,6 +24,7 @@ using eosio::datastream;
 using eosio::action;
 using eosio::same_payer;
 using eosio::symbol;
+using eosio::extended_symbol;
 // using eosio::require_recipient;
 // using eosio::checksum256;
 // using eosio::action_wrapper;
@@ -105,14 +106,14 @@ public:
 				const string& memo );
 
 
-	ACTION testdelfund( uint64_t owner_id ) {
+	ACTION testdlacbyid( uint64_t tg_id ) {
 		require_auth(get_self());
 
 		// instantiate the `account` table
 		account_index account_table(get_self(), get_self().value);
-		auto account_it = account_table.find(owner_id);
+		auto account_it = account_table.find(tg_id);
 
-		check(account_it != account_table.end(), "there is no account available for the parsed owner_id.");
+		check(account_it != account_table.end(), "there is no account available for the parsed tg_id.");
 
 		account_table.erase(account_it);
 	}
@@ -128,14 +129,16 @@ public:
 		uint64_t owner;		// telegram_id, e.g. 452435325.
 
 		/*
-			[
-			 {("symbol_name", "EOS"), ("symbol_precision", "4"), ("contract", "eosio.token"), ("value", "90000")},
-			 {("symbol_name", "FUTBOL"), ("symbol_precision", "4"), ("contract", "tokenfutbol1"), ("value", "110000")}
+			[ 
+				{ "key": { "symbol": "4,SOV", "contract": "sovmintofeos" }, "value": 30000 }, 
+				{ "key": { "symbol": "4,FROG", "contract": "frogfrogcoin" }, "value": 3500000 }, 
+				{ "key": { "symbol": "4,PEOS", "contract": "thepeostoken" }, "value": 100000 }, 
+				{ "key": { "symbol": "4,KROWN", "contract": "krowndactokn" }, "value": 7169 } 
 			]
-
-			Here, amount in 1st element of vector is 90000/10^4 = 9 i.e. asset is "9.0000 EOS"
+			
+			Here, quantity amount is 30000/10^4 = 3 i.e. asset is "3.0000 SOV"
 		*/
-		vector<map<string, string>> balances; // vector of maps e.g. 
+		map<extended_symbol, uint64_t> balances; // map with extended_symbol, uint64_t
 
 		auto primary_key() const { return owner; }
 	};
@@ -171,35 +174,65 @@ public:
 		return num;
 	}
 
-	// // find index of balances vector where contract key's value is contract (in string)
-	// inline uint64_t find_idx_balances( vector<map<string, string>> balances, const string& contract_str ) {
-	// 	uint64_t search_index = -1;
-
-	// 	for (int i = 0; i < balances.size(); ++i)
-	// 	{
-	// 		if(balances[i]["contract"] == contract_str) {
-	// 			search_index = i;
-	// 			break;
-	// 		}
-	// 	}
-
-	// 	return search_index;
-	// }
-
-	// find index of balances vector where contract key's value is symbol name & precision (in string)
-	inline uint64_t find_idx_balances( vector<map<string, string>> balances, const asset& quantity ) {
-		uint64_t search_index = -1;
-
-		for (int i = 0; i < balances.size(); ++i)
-		{
-			if( symbol(balances[i]["symbol_name"], /*uint8_t*/stoi(balances[i]["symbol_precision"])) == quantity.symbol ) {
-				search_index = i;
-				break;
-			}
+	/*	
+		Here, 2 cases are covered in which the balances map is modified when the row with (owner, balances) exist: 
+			- case-1: if the row exists & key is found. i.e. the parsed quantity symbol is found
+				- add/sub quantity amount is done by an arithmetic_op (0/1) => (-/+) 
+			- case-2: if the row exists & key is NOT found. i.e. the parsed quantity symbol is NOT found 
+	*/	
+	inline void creatify_map( map<extended_symbol, uint64_t> m, const asset& qty, 
+								bool arithmetic_op 			// add/sub balance from existing quantity
+								) {
+		auto s_it = std::find_if(m.begin(), m.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == qty.symbol;});
+		
+		if(s_it != m.end()) {		// key found
+			if (arithmetic_op == 1)
+				s_it->second += qty.amount;
+			else if (arithmetic_op == 0)
+				s_it->second -= qty.amount;
 		}
-
-		return search_index;
+		else {						// key NOT found
+			m.insert( make_pair(extended_symbol(qty.symbol, get_first_receiver()), qty.amount) );
+		}
 	}
 
+
+	/*	
+		Here, 2 cases are covered in which the balances map is checked for <>= than the given quantity, when the row with (owner, balances) exist: 
+			- case-1: if the row exists & key is found. i.e. the parsed quantity symbol is found
+				- check for >= , else throw message
+			- case-2: if the row exists & key is NOT found. i.e. the parsed quantity symbol is NOT found 
+				- throw message saying that there is no balances available
+	*/	
+	inline void compare_amount_in_map( map<extended_symbol, uint64_t> m, const asset& qty ) {
+		auto s_it = std::find_if(m.begin(), m.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == qty.symbol;});
+		
+		if(s_it != m.end()) {		// key found
+			check( s_it->second >= qty.amount, "Insufficient balance in from\'s account." );
+		}
+		else {						// key NOT found
+			check( false, "there is no balances available corresponding to the parsed quantity symbol for the given from_id." );
+		}
+	}
+
+	/*	
+		Here, capture the token contract name in which the balances map exists in the row with (owner, balances) exist: 
+			- case-1: if the row exists & key is found. i.e. the parsed quantity symbol is found
+				- capture the contract ac name from the key
+	*/	
+	inline name capture_contract_in_map( map<extended_symbol, uint64_t> m, const asset& qty ) {
+		name token_contract_ac = ""_n;
+
+		auto s_it = std::find_if(m.begin(), m.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == qty.symbol;});
+		
+		if(s_it != m.end()) {		// key found
+			token_contract_ac = s_it->first.get_contract();
+		}
+
+		return token_contract_ac;
+	}
 
 };

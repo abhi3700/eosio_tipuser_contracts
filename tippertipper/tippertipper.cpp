@@ -29,29 +29,18 @@ void tippertipper::deposit( const name& from_ac,
 		account_index account_table(get_self(), get_self().value);
 		auto account_it = account_table.find(tg_id);
 
-		// update (add/modify) the deposit_qty
+		// update (emplace/modify) the deposit_qty
 		if(account_it == account_table.end()) {
 			account_table.emplace(get_self(), [&](auto& row) {
 				row.owner = tg_id;
-				row.balances = vector<map<string, string>>{
-					map<string, string>{
-						make_pair("symbol_name", quantity.symbol.code().to_string()),
-						make_pair("symbol_precision", std::to_string(quantity.symbol.precision())),
-						make_pair("contract", get_first_receiver().to_string()),
-						make_pair("value", std::to_string(quantity.amount))
-					}
+				row.balances = map<extended_symbol, uint64_t>{
+					make_pair(extended_symbol(quantity.symbol, get_first_receiver()), quantity.amount)
 				};
 			});
-		} else {
+		} 
+		else {
 			account_table.modify(account_it, get_self(), [&](auto& row) {
-				row.balances.emplace_back(
-					map<string, string>{
-						make_pair("symbol_name", quantity.symbol.code().to_string()),
-						make_pair("symbol_precision", std::to_string(quantity.symbol.precision())),
-						make_pair("contract", get_first_receiver().to_string()),
-						make_pair("value", std::to_string(quantity.amount))
-					}
-				);
+				creatify_map(row.balances, quantity, 1);		// 1 for add balance
 			});
 		}
 
@@ -81,30 +70,31 @@ void tippertipper::withdraw( /*const name& contract_ac,*/
 
 	check(frm_account_it != account_table.end(), "there is no account available for the given from_id.");
 
-	// get from_ac's balances vector's index where quantity's symbol is present
-	auto frm_found_index = find_idx_balances(frm_account_it->balances, quantity);
-	check(frm_found_index != -1, "there is no balances available corresponding to the parsed quantity sym & precision for the given from_id.");
-
-	check(str_to_uint64t(frm_account_it->balances[frm_found_index].at("value")) >= quantity.amount, "Insufficient balance in from\'s account.");
+	// compare the amount present in balances map's value
+	compare_amount_in_map( frm_account_it->balances, quantity );
 
     // transfer quantity from tippertipper contract to to_ac
     action(
 		permission_level{get_self(), "active"_n},
-		name(frm_account_it->balances[frm_found_index].at("contract")),
+		capture_contract_in_map(frm_account_it->balances, quantity),
 		"transfer"_n,
 		std::make_tuple(get_self(), to_ac, quantity, memo)
 	).send();
 
 	// update (substract) the balances' value in from_id accounts table
 	account_table.modify(frm_account_it, get_self(), [&](auto& row) {
-		row.balances[frm_found_index].at("value") = std::to_string(str_to_uint64t(frm_account_it->balances[frm_found_index].at("value")) - quantity.amount);
+		creatify_map(row.balances, quantity, 0);		// 0 for sub balance
 	});
 
 	// erase the from_id in accounts table due to zero balances' value
 	// this is to save the contract's RAM space
-	if(str_to_uint64t(frm_account_it->balances[frm_found_index].at("value")) == 0) {
-		account_table.erase(frm_account_it);
-	}
+	auto s_it = std::find_if(frm_account_it->balances.begin(), frm_account_it->balances.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == quantity.symbol;});
+		
+	if(s_it != frm_account_it->balances.end()) {		// key found
+		if (s_it->second == 0)			// if val == 0
+			account_table.erase(frm_account_it);
+	}	
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -133,46 +123,39 @@ void tippertipper::tip( /*const name& contract_ac,*/
 
 	check(frm_account_it != account_table.end(), "there is no account available for the given from_id.");
 
-	// get from_ac's balances vector's index where quantity's symbol is present
-	auto frm_found_index = find_idx_balances(frm_account_it->balances, quantity);
-	check(frm_found_index != -1, "there is no balances available corresponding to the parsed quantity sym & precision for the given from_id.");
-
-	check(str_to_uint64t(frm_account_it->balances[frm_found_index].at("value")) >= quantity.amount, "Insufficient balance in from\'s account.");
+	// compare the amount present in balances map's value
+	compare_amount_in_map( frm_account_it->balances, quantity );
 
 	// -------------------------------------------------------------------------
 	// update (substract) the balances' value in from_id accounts table
 	account_table.modify(frm_account_it, get_self(), [&](auto& row) {
-		row.balances[frm_found_index]["value"] = std::to_string(str_to_uint64t(frm_account_it->balances[frm_found_index].at("value")) - quantity.amount);
+		creatify_map(row.balances, quantity, 0);		// 0 for sub balance
 	});
-
-	// erase the from_id in accounts table due to zero balances' value
-	// this is to save the contract's RAM space
-	if(str_to_uint64t(frm_account_it->balances[frm_found_index].at("value")) == 0) {
-		account_table.erase(frm_account_it);
-	}
 
 	// -------------------------------------------------------------------------
 	// update (add) the balances' value in to_id accounts table
 	if(to_account_it == account_table.end()) {						// table for to_ac doesn't exist
 		account_table.emplace(get_self(), [&](auto& row) {
 			row.owner = to_id;
-			row.balances = vector<map<string, string>>{
-				map<string, string>{
-					make_pair("symbol_name", quantity.symbol.code().to_string()),
-					make_pair("symbol_precision", std::to_string(quantity.symbol.precision())),
-					make_pair("contract", frm_account_it->balances[frm_found_index].at("contract")),
-					make_pair("value", std::to_string(quantity.amount))
-				}
+			row.balances = map<extended_symbol, uint64_t>{
+				make_pair(extended_symbol(quantity.symbol, capture_contract_in_map( frm_account_it->balances, quantity )), quantity.amount)
 			};
 		});
 	} else {														// table for to_ac exist
 		account_table.modify(to_account_it, get_self(), [&](auto& row) {
-			// get to_ac's balances vector's index where quantity's symbol is present
-			auto to_found_index = find_idx_balances(to_account_it->balances, quantity);
-			check(to_found_index != -1, "there is no balances available corresponding to the parsed quantity sym & precision for the given to_id. Please, try again.");
-			
-			row.balances[to_found_index].at("value") = std::to_string(str_to_uint64t(to_account_it->balances[to_found_index].at("value")) + quantity.amount);
+			creatify_map(row.balances, quantity, 1);		// 1 for add balance
 
 		});
 	}
+
+	// -------------------------------------------------------------------------
+	// erase the from_id in accounts table due to zero balances' value
+	// this is to save the contract's RAM space
+	auto s_it = std::find_if(frm_account_it->balances.begin(), frm_account_it->balances.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == quantity.symbol;});
+		
+	if(s_it != frm_account_it->balances.end()) {		// key found
+		if (s_it->second == 0)			// if val == 0
+			account_table.erase(frm_account_it);
+	}	
 }
