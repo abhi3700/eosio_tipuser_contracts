@@ -56,6 +56,20 @@
             ]
         },
         {
+            "name": "testmdqtyusr",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
             "name": "tip",
             "base": "",
             "fields": [
@@ -116,6 +130,11 @@
         {
             "name": "testdlacbyid",
             "type": "testdlacbyid",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "testmdqtyusr",
+            "type": "testmdqtyusr",
             "ricardian_contract": ""
         },
         {

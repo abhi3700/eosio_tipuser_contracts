@@ -40,7 +40,27 @@ void tippertipper::deposit( const name& from_ac,
 		} 
 		else {
 			account_table.modify(account_it, get_self(), [&](auto& row) {
-				creatify_map(row.balances, quantity, 1);		// 1 for add balance
+				// ----------------------------------------------------------------------------
+				// code snippet for modifying the value in place of creatify_map() func
+				// ----------------------------------------------------------------------------
+				bool arithmetic_op = 1;		// 1 for add balance
+				auto s_it = std::find_if(row.balances.begin(), row.balances.end(), 
+									[&](auto& ms) {return ms.first.get_symbol() == quantity.symbol;});
+				
+				if(s_it != row.balances.end()) {		// key found
+					if (arithmetic_op == 1) {
+						s_it->second += quantity.amount;
+						// check(false, "values: " + std::to_string(s_it->second) + ", " + std::to_string(s_it->second + qty.amount));					// for testing
+					}
+					else if (arithmetic_op == 0)
+						s_it->second -= quantity.amount;
+				}
+				else {						// key NOT found
+					// check(false, "Key NOT found");					// for testing
+					row.balances.insert( make_pair(extended_symbol(quantity.symbol, get_first_receiver()), quantity.amount) );
+				}
+				// ----------------------------------------------------------------------------
+				// ----------------------------------------------------------------------------
 			});
 		}
 
@@ -83,7 +103,27 @@ void tippertipper::withdraw( /*const name& contract_ac,*/
 
 	// update (substract) the balances' value in from_id accounts table
 	account_table.modify(frm_account_it, get_self(), [&](auto& row) {
-		creatify_map(row.balances, quantity, 0);		// 0 for sub balance
+		// ----------------------------------------------------------------------------
+		// code snippet for modifying the value in place of creatify_map() func
+		// ----------------------------------------------------------------------------
+		bool arithmetic_op = 0;		// 0 for sub balance
+		auto s_it = std::find_if(row.balances.begin(), row.balances.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == quantity.symbol;});
+		
+		if(s_it != row.balances.end()) {		// key found
+			if (arithmetic_op == 1) {
+				s_it->second += quantity.amount;
+				// check(false, "values: " + std::to_string(s_it->second) + ", " + std::to_string(s_it->second + qty.amount));					// for testing
+			}
+			else if (arithmetic_op == 0)
+				s_it->second -= quantity.amount;
+		}
+		else {						// key NOT found
+			// check(false, "Key NOT found");					// for testing
+			row.balances.insert( make_pair(extended_symbol(quantity.symbol, get_first_receiver()), quantity.amount) );
+		}
+		// ----------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------
 	});
 
 	// erase the from_id in accounts table due to zero balances' value
@@ -129,7 +169,27 @@ void tippertipper::tip( /*const name& contract_ac,*/
 	// -------------------------------------------------------------------------
 	// update (substract) the balances' value in from_id accounts table
 	account_table.modify(frm_account_it, get_self(), [&](auto& row) {
-		creatify_map(row.balances, quantity, 0);		// 0 for sub balance
+		// ----------------------------------------------------------------------------
+		// code snippet for modifying the value in place of creatify_map() func
+		// ----------------------------------------------------------------------------
+		bool arithmetic_op = 0;		// 0 for sub balance
+		auto s_it = std::find_if(row.balances.begin(), row.balances.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == quantity.symbol;});
+		
+		if(s_it != row.balances.end()) {		// key found
+			if (arithmetic_op == 1) {
+				s_it->second += quantity.amount;
+				// check(false, "values: " + std::to_string(s_it->second) + ", " + std::to_string(s_it->second + qty.amount));					// for testing
+			}
+			else if (arithmetic_op == 0)
+				s_it->second -= quantity.amount;
+		}
+		else {						// key NOT found
+			// check(false, "Key NOT found");					// for testing
+			row.balances.insert( make_pair(extended_symbol(quantity.symbol, get_first_receiver()), quantity.amount) );
+		}
+		// ----------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------
 	});
 
 	// -------------------------------------------------------------------------
@@ -143,7 +203,27 @@ void tippertipper::tip( /*const name& contract_ac,*/
 		});
 	} else {														// table for to_ac exist
 		account_table.modify(to_account_it, get_self(), [&](auto& row) {
-			creatify_map(row.balances, quantity, 1);		// 1 for add balance
+			// ----------------------------------------------------------------------------
+			// code snippet for modifying the value in place of creatify_map() func
+			// ----------------------------------------------------------------------------
+			bool arithmetic_op = 1;		// 1 for add balance
+			auto s_it = std::find_if(row.balances.begin(), row.balances.end(), 
+								[&](auto& ms) {return ms.first.get_symbol() == quantity.symbol;});
+			
+			if(s_it != row.balances.end()) {		// key found
+				if (arithmetic_op == 1) {
+					s_it->second += quantity.amount;
+					// check(false, "values: " + std::to_string(s_it->second) + ", " + std::to_string(s_it->second + qty.amount));					// for testing
+				}
+				else if (arithmetic_op == 0)
+					s_it->second -= quantity.amount;
+			}
+			else {						// key NOT found
+				// check(false, "Key NOT found");					// for testing
+				row.balances.insert( make_pair(extended_symbol(quantity.symbol, get_first_receiver()), quantity.amount) );
+			}
+			// ----------------------------------------------------------------------------
+			// ----------------------------------------------------------------------------
 
 		});
 	}
