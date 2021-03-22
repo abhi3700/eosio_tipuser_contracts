@@ -118,7 +118,7 @@ public:
 		account_table.erase(account_it);
 	}
 
-	ACTION testmdqtyusr(uint64_t from_id, const asset& quantity) {
+	ACTION testmdqtyusr(uint64_t from_id, const asset& quantity, bool arithmetic_op) {
 		require_auth(get_self());
 
 		// instantiate the `account` table
@@ -131,30 +131,27 @@ public:
 		account_table.modify(frm_account_it, get_self(), [&](auto& row) {
 
 			// NOTE: below is not used as map was not allowed to be used as const like this: `const map<extended_symbol, uint64_t>& m`
-			// creatify_map(row.balances, quantity, 1);		// 1 for add balance
+			creatify_map(row.balances, quantity, arithmetic_op);		// arithmetic_op for add/sub - (1/0) balance
 			
-			// ----------------------------------------------------------------------------
+/*			// ----------------------------------------------------------------------------
 			// code snippet for modifying the value in place of creatify_map() func
 			// ----------------------------------------------------------------------------
-			bool arithmetic_op = 1;		// 1 for add balance
+			// bool arithmetic_op = 1;		// 1 for add balance
 			auto s_it = std::find_if(row.balances.begin(), row.balances.end(), 
 								[&](auto& ms) {return ms.first.get_symbol() == quantity.symbol;});
 			
 			if(s_it != row.balances.end()) {		// key found
-				if (arithmetic_op == 1) {
+				if (arithmetic_op == 1)
 					s_it->second += quantity.amount;
-					// check(false, "values: " + std::to_string(s_it->second) + ", " + std::to_string(s_it->second + qty.amount));					// for testing
-				}
 				else if (arithmetic_op == 0)
 					s_it->second -= quantity.amount;
 			}
 			else {						// key NOT found
-				// check(false, "Key NOT found");					// for testing
 				row.balances.insert( make_pair(extended_symbol(quantity.symbol, get_first_receiver()), quantity.amount) );
 			}
 			// ----------------------------------------------------------------------------
 			// ----------------------------------------------------------------------------
-
+*/
 		});
 	}
 	
@@ -220,25 +217,22 @@ public:
 				- add/sub quantity amount is done by an arithmetic_op (0/1) => (-/+) 
 			- case-2: if the row exists & key is NOT found. i.e. the parsed quantity symbol is NOT found 
 	*/	
-	// inline void creatify_map( map<extended_symbol, uint64_t>& m, const asset& qty, 
-	// 							bool arithmetic_op 			// add/sub balance from existing quantity
-	// 							) {
-	// 	auto s_it = std::find_if(m.begin(), m.end(), 
-	// 						[&](auto& ms) {return ms.first.get_symbol() == qty.symbol;});
+	inline void creatify_map( map<extended_symbol, uint64_t>& m, const asset& qty, 
+								bool arithmetic_op 			// add/sub balance from existing quantity
+								) {
+		auto s_it = std::find_if(m.begin(), m.end(), 
+							[&](auto& ms) {return ms.first.get_symbol() == qty.symbol;});
 		
-	// 	if(s_it != m.end()) {		// key found
-	// 		if (arithmetic_op == 1) {
-	// 			s_it->second += qty.amount;
-	// 			// check(false, "values: " + std::to_string(s_it->second) + ", " + std::to_string(s_it->second + qty.amount));					// for testing
-	// 		}
-	// 		else if (arithmetic_op == 0)
-	// 			s_it->second -= qty.amount;
-	// 	}
-	// 	else {						// key NOT found
-	// 		check(false, "Key NOT found");					// for testing
-	// 		m.insert( make_pair(extended_symbol(qty.symbol, get_first_receiver()), qty.amount) );
-	// 	}
-	// }
+		if(s_it != m.end()) {		// key found
+			if (arithmetic_op == 1)
+				s_it->second += qty.amount;
+			else if (arithmetic_op == 0)
+				s_it->second -= qty.amount;
+		}
+		else {						// key NOT found
+			m.insert( make_pair(extended_symbol(qty.symbol, get_first_receiver()), qty.amount) );
+		}
+	}
 
 
 	/*	

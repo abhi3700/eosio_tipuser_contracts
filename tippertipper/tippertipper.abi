@@ -66,6 +66,10 @@
                 {
                     "name": "quantity",
                     "type": "asset"
+                },
+                {
+                    "name": "arithmetic_op",
+                    "type": "bool"
                 }
             ]
         },

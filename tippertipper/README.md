@@ -451,6 +451,14 @@ executed transaction: 89a821e0193e65fee6bd6e03c845292a877edd3358e9156898dd29af9a
 #  tipuser11111 <= tokenfutbol1::transfer       {"from":"tippertipper","to":"tipuser11111","quantity":"9.9000 FUTBOL","memo":"return accounts"}
 warning: transaction executed locally, but may not be confirmed by the network yet         ]
 ```
+* test by add/sub - 1/0 token to existing tg_id
+```console
+$ cleost push action tippertipper testmdqtyusr '["145624324", "2.0000 EOS", "1"]' -p tippert
+ipper@active
+executed transaction: 45f6fe0feb3b2b364fc4a3202267aad17429a67519e348ee55170832ed0e730e  120 bytes  253 us
+#  tippertipper <= tippertipper::testmdqtyusr   {"from_id":145624324,"quantity":"2.0000 EOS","arithmetic_op":1}
+warning: transaction executed locally, but may not be confirmed by the network yet         ]
+```
 
 
 ## TODO
