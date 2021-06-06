@@ -88,7 +88,6 @@ public:
 	 * @brief - tip money to a person via just telegram_id
 	 * @details - no eosio account needed for both from & to users
 	 * 
-	 * @param contract_ac - contract account name
 	 * @param from_id - from telegram_id
 	 * @param to_id - to telegram_id
 	 * @param from_username - from telegram username
@@ -96,8 +95,7 @@ public:
 	 * @param quantity - qty
 	 * @param memo - memo
 	 */
-	ACTION tip( /*const name& contract_ac,*/
-				uint64_t from_id,
+	ACTION tip( uint64_t from_id,
 				uint64_t to_id,
 				const string& from_username,
 				const string& to_username,
