@@ -151,7 +151,7 @@ void tippertipper::tip( /*const name& contract_ac,*/
 	check(from_username != to_username, "from_username & to_username can\'t be same.");
 	
 	check( quantity.is_valid(), "invalid quantity" );
-	check( quantity.amount > 0, "must withdraw positive quantity" );
+	check( quantity.amount > 0, "must transfer positive quantity" );
     check( memo.size() <= 256, "memo has more than 256 bytes" );
 
 	// instantiate the `account` table
@@ -165,7 +165,7 @@ void tippertipper::tip( /*const name& contract_ac,*/
 	compare_amount_in_map( frm_account_it->balances, quantity );
 
 	// -------------------------------------------------------------------------
-	// update (substract) the balances' value in from_id accounts table
+	// update (substract) the `balances' value in from_id accounts table
 	account_table.modify(frm_account_it, get_self(), [&](auto& row) {
 			creatify_map(row.balances, quantity, 0);		// 0 for sub balance
 /*

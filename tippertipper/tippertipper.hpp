@@ -52,11 +52,11 @@ public:
 
 	/**
 	 * @brief - deposit money to the contract ac
-	 * @details - deposit money to the contract ac with memo including telegram user_id e.g. 452435325
+	 * @details - deposit money to the contract ac with memo - telegram user_id e.g. 452435325
 	 * 			- accepts any token i.e. EOSIO token e.g. "EOS", "TOE", "FUTBOL" created on a chain
 	 * @param from - user account
 	 * @param contract_ac - contract ac
-	 * @param quantity - in EOS
+	 * @param quantity - in eosio tokens - EOS, TOE, etc.
 	 * @param memo - purpose which should include telegram user_id
 	 */
 	[[eosio::on_notify("*::transfer")]]
@@ -70,19 +70,18 @@ public:
 	 * @brief - withdraw amount
 	 * @details - withdraw amount from_id to to_ac
 	 * 
-	 * @param contract_ac - contract account name
 	 * @param from_id - from telegram_id
 	 * @param from_username - from telegram username
 	 * @param to_ac - to eosio account
 	 * @param quantity - qty
 	 * @param memo - memo
 	 */
-	ACTION withdraw( /*const name& contract_ac,*/
-					 uint64_t from_id,
+	ACTION withdraw( uint64_t from_id,
 					 const string& from_username,
 					 const name& to_ac,
 					 const asset& quantity,
-					 const string& memo );
+					 const string& memo 
+					);
 
 	
 	/**
@@ -201,8 +200,8 @@ public:
 	// string to uint64_t
 	inline uint64_t str_to_uint64t(const string& s) {
 		// M-1
-		char* end;
-		uint64_t num = strtoull(s.c_str(), &end, 10);
+		// char* end;
+		uint64_t num = strtoull(s.c_str(), NULL, 10);
 	
 		//----------------------------------------------
 		// M-2
@@ -267,6 +266,9 @@ public:
 		
 		if(s_it != m.end()) {		// key found
 			token_contract_ac = s_it->first.get_contract();
+		}
+		else {
+			check(false, "there is no contract account found with this quantity");
 		}
 
 		return token_contract_ac;
