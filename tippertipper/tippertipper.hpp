@@ -128,7 +128,7 @@ public:
 		account_table.modify(frm_account_it, get_self(), [&](auto& row) {
 
 			// NOTE: below is not used as map was not allowed to be used as const like this: `const map<extended_symbol, uint64_t>& m`
-			creatify_map(row.balances, quantity, arithmetic_op);		// arithmetic_op for add/sub - (1/0) balance
+			creatify_map(row.balances, quantity, arithmetic_op, "captract"_n);		// arithmetic_op for add/sub - (1/0) balance
 			
 /*			// ----------------------------------------------------------------------------
 			// code snippet for modifying the value in place of creatify_map() func
@@ -215,8 +215,8 @@ public:
 			- case-2: if the row exists & key is NOT found. i.e. the parsed quantity symbol is NOT found 
 	*/	
 	inline void creatify_map( map<extended_symbol, uint64_t>& m, const asset& qty, 
-								bool arithmetic_op 			// add/sub balance from existing quantity
-								) {
+								bool arithmetic_op, 			// add/sub balance from existing quantity
+								const name& token_contract_name ) {
 		auto s_it = std::find_if(m.begin(), m.end(), 
 							[&](auto& ms) {return ms.first.get_symbol() == qty.symbol;});
 		
@@ -227,7 +227,10 @@ public:
 				s_it->second -= qty.amount;
 		}
 		else {						// key NOT found
-			m.insert( make_pair(extended_symbol(qty.symbol, get_first_receiver()), qty.amount) );
+			if (token_contract_name == ""_n)
+				m.insert( make_pair(extended_symbol(qty.symbol, get_first_receiver()), qty.amount) );
+			else
+				m.insert( make_pair(extended_symbol(qty.symbol, capture_contract_in_map(m, qty)), qty.amount) );
 		}
 	}
 

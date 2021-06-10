@@ -40,7 +40,7 @@ void tippertipper::deposit( const name& from_ac,
 		} 
 		else {
 			account_table.modify(account_it, get_self(), [&](auto& row) {
-				creatify_map(row.balances, quantity, 1);		// 1 for add balance
+				creatify_map(row.balances, quantity, 1, ""_n);		// 1 for add balance
 /*
 				// ----------------------------------------------------------------------------
 				// code snippet for modifying the value in place of creatify_map() func
@@ -102,7 +102,7 @@ void tippertipper::withdraw( /*const name& contract_ac,*/
 
 	// update (substract) the balances' value in from_id accounts table
 	account_table.modify(frm_account_it, get_self(), [&](auto& row) {
-		creatify_map(row.balances, quantity, 0);		// 0 for sub balance
+		creatify_map(row.balances, quantity, 0, "captract"_n);		// 0 for sub balance
 /*
 		// ----------------------------------------------------------------------------
 		// code snippet for modifying the value in place of creatify_map() func
@@ -167,7 +167,7 @@ void tippertipper::tip( /*const name& contract_ac,*/
 	// -------------------------------------------------------------------------
 	// update (substract) the `balances' value in from_id accounts table
 	account_table.modify(frm_account_it, get_self(), [&](auto& row) {
-			creatify_map(row.balances, quantity, 0);		// 0 for sub balance
+			creatify_map(row.balances, quantity, 0, "captract"_n);		// 0 for sub balance
 /*
 		// ----------------------------------------------------------------------------
 		// code snippet for modifying the value in place of creatify_map() func
@@ -200,7 +200,7 @@ void tippertipper::tip( /*const name& contract_ac,*/
 		});
 	} else {														// table for to_ac exist
 		account_table.modify(to_account_it, get_self(), [&](auto& row) {
-			creatify_map(row.balances, quantity, 1);	// 1 for add balance
+			creatify_map(row.balances, quantity, 1, "captract"_n);	// 1 for add balance
 
 /*			// ----------------------------------------------------------------------------
 			// code snippet for modifying the value in place of creatify_map() func
